@@ -24,7 +24,7 @@ class CpAls(TensorAlgo):
     def __str__(self):
         return f"Algo: CP_ALS, Rank: {self._rank}, n_iter: {self._n_iter_max}"
 
-
+    #TODO: Perhaps revert from static method
     @staticmethod
     def compose(decomposed_tensor: List[ndarray]) -> ndarray:
         """
