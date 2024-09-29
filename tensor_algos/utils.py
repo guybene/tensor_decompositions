@@ -9,8 +9,9 @@ def create_random_rank_r_tensor(rank, shape):
     :param shape: The Tensor shape
     :return: A tensor of the relevant rank and shape
     """
-    # Create matricies of full rank
+    # Create matrices of full rank
     matrices = []
+    assert rank <= min(shape), f"Cant create a matrix of rank: {rank} with dim: {min(shape)}"
     for dim in shape:
         curr_mat = np.random.randn(dim, rank)
         while np.linalg.matrix_rank(curr_mat) != rank:

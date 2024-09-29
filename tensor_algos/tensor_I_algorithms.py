@@ -8,9 +8,9 @@ class TensorAlgo(ABC):
     def decompose(self, tensor: ndarray) -> List[ndarray]:
         raise Exception("Not Implemented")
 
-
+    @staticmethod
     @abstractmethod
-    def compose(self, decomposed_tensor: List[ndarray]) -> ndarray:
+    def compose(decomposed_tensor: List[ndarray]) -> ndarray:
         raise Exception("Not Implemented")
 
     @abstractmethod
