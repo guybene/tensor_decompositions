@@ -88,6 +88,13 @@ class TubalSVD(TensorAlgo):
     def __str__(self):
         return f"Algo: TubalSVD, Ranks: {self._rank}"
 
+    def get_algo_name(self):
+        """
+        Get Algo Name
+        :return: The name of the algorithm
+        """
+        return "TUBAL_SVD"
+
 
 if __name__ == "__main__":
     data = np.random.randn(10, 8, 15)

@@ -84,6 +84,13 @@ class CpJennrich(TensorAlgo):
             composed_data += np.einsum(f"{einsum_input}->{einsum_output}", *curr_factors)
         return composed_data
 
+    def get_algo_name(self):
+        """
+        Get Algo Name
+        :return: The name of the algorithm
+        """
+        return "CP_JENNRICH"
+
 
 if __name__ == "__main__":
     from tensor_algos.utils import create_random_rank_r_tensor

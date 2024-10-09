@@ -36,6 +36,13 @@ class TensorTrain(TensorAlgo):
         """
         return tt_to_tensor(decomposed_tensor)
 
+    def get_algo_name(self):
+        """
+        Get Algo Name
+        :return: The name of the algorithm
+        """
+        return "TENSOR_TRAIN"
+
 
 if __name__ == "__main__":
     data = np.random.randn(3, 4, 5, 6, 7)

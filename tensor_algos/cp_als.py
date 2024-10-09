@@ -43,6 +43,13 @@ class CpAls(TensorAlgo):
             composed_data += np.einsum(f"{einsum_input}->{einsum_output}", *curr_factors)
         return composed_data
 
+    def get_algo_name(self):
+        """
+        Get Algo Name
+        :return: The name of the algorithm
+        """
+        return "CP_ALS"
+
 if __name__ == "__main__":
     data = np.random.randn(3, 4, 5, 6, 7)
     factors = parafac(data, rank=100).factors

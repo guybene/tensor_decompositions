@@ -43,7 +43,12 @@ class TuckerHOI(TensorAlgo):
         tucker_obj = TuckerTensor((core, factors))
         return tucker_obj.to_tensor()
 
-
+    def get_algo_name(self):
+        """
+        Get Algo Name
+        :return: The name of the algorithm
+        """
+        return "TUCKER"
 
 
 if __name__ == "__main__":

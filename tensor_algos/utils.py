@@ -3,8 +3,8 @@ import numpy as np
 
 def create_random_rank_r_tensor(rank, shape):
     """
-    Creates a tensor of the given rank in the given shape. By making sure all matricies are of full
-    rank and so we can assert uniqueness
+    Creates a tensor of the given rank in the given shape. By making sure all matrices are of full
+    rank so we can assert uniqueness
     :param rank: The tensor rank
     :param shape: The Tensor shape
     :return: A tensor of the relevant rank and shape

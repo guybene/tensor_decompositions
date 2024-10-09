@@ -3,7 +3,6 @@ import torchvision
 import torchvision.transforms as transforms
 from typing import Optional
 import numpy as np
-from time import time
 
 
 from cifar_model.torch_model import Net
@@ -13,19 +12,19 @@ from tensor_algos.cp_als import CpAls
 
 
 DOWNLOAD = False
-PATH = './cifar_net.pth'
 
-class CifarModelEvaluator():
+class CifarModelEvaluator:
+    PATH = './cifar_net.pth'
 
-    def __init__(self, sub_sample=1):
-        self.path = PATH
+    def __init__(self, sub_sample=50):
+        self.path = CifarModelEvaluator.PATH
         self.net = Net()
         self.net.load_state_dict(torch.load(self.path, weights_only=True))
 
         self.transform = transforms.Compose(
             [transforms.ToTensor(),
              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-        self.batch_size = 32
+        self.batch_size = 10
 
 
         testset = torchvision.datasets.CIFAR10(root='./data', train=False,
@@ -81,7 +80,7 @@ class CifarModelEvaluator():
 
 if __name__ == "__main__":
     decomp = CpAls(rank=3)
-    evaler = CifarModelEvaluator(sub_sample=20)
+    evaler = CifarModelEvaluator()
     score = evaler.eval_model()
     score_composed = evaler.eval_model(tensor_algo=decomp)
     print(score, score_composed)
