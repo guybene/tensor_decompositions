@@ -1,6 +1,6 @@
-from typing import List,  Tuple
+from typing import List, Optional
 
-from datetime import datetime
+from time import time
 import numpy as np
 
 
@@ -23,7 +23,7 @@ class AlgoMetrics:
         return np.sqrt(np.sum(np.square(tensor)))
 
     @staticmethod
-    def analyze_single_decomp(algo: TensorAlgo, tensor, noises_variance: List[float]):
+    def analyze_single_decomp(algo: TensorAlgo, tensor, noises_variance:  List[float]):
         """
         Analyzes a single decomposition algo, i.e. takes an algorithm and a tensor and analyze all the metrics
         with those two.
@@ -41,12 +41,15 @@ class AlgoMetrics:
         :return: decomposition_time, composition_time, frobenius_norm, compression_rate,
          noise degradation in norm from the original, noise degredation in norm from recomposed
         """
-        s_time = datetime.now()
+        decomp_s_time = time()
         decomp_factors = algo.decompose(tensor)
-        decomp_time = s_time - datetime.now()
+        decomp_time = time() - decomp_s_time
+
+        comp_s_time = time()
         composed_tensor = algo.compose(decomp_factors)
-        comp_time = s_time - datetime.now()
-        error = AlgoMetrics.norm(composed_tensor - tensor)
+        comp_time = time() - comp_s_time
+
+        error = AlgoMetrics.norm(composed_tensor.astype(tensor.dtype) - tensor)
         compression_rate = 100 * sum([factor.size for factor in decomp_factors]) / tensor.size
         distance_from_original = {}
         distance_from_recomposed = {}
@@ -57,7 +60,7 @@ class AlgoMetrics:
                                                                                 recomposed_tensors=composed_tensor)
             distance_from_original[noise] = norm_to_original
             distance_from_recomposed[noise] = norm_to_decomposed
-        return decomp_time.microseconds, comp_time.microseconds, error, compression_rate, distance_from_original,\
+        return decomp_time, comp_time, error, compression_rate, distance_from_original,\
                distance_from_recomposed
 
 
@@ -93,7 +96,13 @@ class AlgoMetrics:
         return noised_norm, recomposed_norm
 
 if __name__ == "__main__":
-    data = np.random.randn(3,4,6,6,6)
-    from tensor_algos.tucker import TuckerHOI
-    algo = TuckerHOI(rank=[3])
-    print(AlgoMetrics.analyze_single_decomp(algo, data, [0.1]))
+    from tensor_algos.utils import create_random_rank_r_tensor
+    data = create_random_rank_r_tensor(rank=30, shape=[50, 50, 50])
+    from tensor_algos.cp_jennrich import CpJennrich
+    from tensor_algos.cp_als import CpAls
+
+    algo = CpJennrich(rank=30)
+    print(AlgoMetrics.analyze_single_decomp(algo, data, []))
+
+    algo2 = CpAls(rank=31)
+    print(AlgoMetrics.analyze_single_decomp(algo2, data, []))

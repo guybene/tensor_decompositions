@@ -13,13 +13,13 @@ def create_random_rank_r_tensor(rank, shape):
     matrices = []
     assert rank <= min(shape), f"Cant create a matrix of rank: {rank} with dim: {min(shape)}"
     for dim in shape:
-        curr_mat = np.random.randn(dim, rank)
+        curr_mat = np.random.randn(dim, rank).astype(np.float32)
         while np.linalg.matrix_rank(curr_mat) != rank:
-            curr_mat = np.random.randn(dim, rank)
+            curr_mat = np.random.randn(dim, rank).astype(np.float32)
         matrices.append(curr_mat)
 
     # Builds the required tensor out of <rank> outer products
-    tensor = np.zeros(shape)
+    tensor = np.zeros(shape, dtype=np.float32)
     einsum_input = ','.join([chr(97 + i) for i in range(len(shape))])
     einsum_output = ''.join([chr(97 + i) for i in range(len(shape))])
     for i in range(rank):
