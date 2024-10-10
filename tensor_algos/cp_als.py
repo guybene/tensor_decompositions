@@ -13,7 +13,7 @@ class CpAls(TensorAlgo):
     def __init__(self, rank, n_iter_max = None, tol= None):
         self._rank = rank
         self._n_iter_max = n_iter_max if n_iter_max is not None else 100
-        self._tol = tol if tol is not None else 1e-8
+        self._tol = tol if tol is not None else 1e-16
         self._algo = parafac
 
 
@@ -51,7 +51,13 @@ class CpAls(TensorAlgo):
         return "CP_ALS"
 
 if __name__ == "__main__":
-    data = np.random.randn(3, 4, 5, 6, 7)
-    factors = parafac(data, rank=100).factors
-    comp_data = CpAls.compose(factors)
-    print(np.sum(data-comp_data))
+    from tensor_algos.utils import create_random_rank_r_tensor
+    data = create_random_rank_r_tensor(2, (10,10,10,10))
+    algo = CpAls(rank=5, n_iter_max=100)
+    from metrics_utils import AlgoMetrics
+    print(AlgoMetrics.analyze_single_decomp(algo, data, []))
+
+    algo = CpAls(rank=5, n_iter_max=5)
+    from metrics_utils import AlgoMetrics
+    print(AlgoMetrics.analyze_single_decomp(algo, data, []))
+

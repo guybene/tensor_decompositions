@@ -97,12 +97,12 @@ class AlgoMetrics:
 
 if __name__ == "__main__":
     from tensor_algos.utils import create_random_rank_r_tensor
-    data = create_random_rank_r_tensor(rank=30, shape=[50, 50, 50])
+    data = create_random_rank_r_tensor(rank=20, shape=[20, 20, 20])
     from tensor_algos.cp_jennrich import CpJennrich
     from tensor_algos.cp_als import CpAls
 
-    algo = CpJennrich(rank=30)
+    algo = CpJennrich(rank=20)
     print(AlgoMetrics.analyze_single_decomp(algo, data, []))
 
-    algo2 = CpAls(rank=31)
+    algo2 = CpAls(rank=20)
     print(AlgoMetrics.analyze_single_decomp(algo2, data, []))
